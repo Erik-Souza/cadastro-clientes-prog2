@@ -1,10 +1,10 @@
-// Seleciona o formulário pelo ID
+// Seleciona os elementos do HTML
 const form = document.getElementById('formCadastro');
 const divMensagem = document.getElementById('mensagem');
+const corpoTabela = document.getElementById('tabelaClientes');
 
 // Fica "escutando" o evento de envio (submit) do formulário
 form.addEventListener('submit', async function(event) {
-    // Evita que a página recarregue ao clicar no botão
     event.preventDefault();
 
     // Captura os valores digitados nos campos
@@ -12,7 +12,6 @@ form.addEventListener('submit', async function(event) {
     const email = document.getElementById('email').value;
     const telefone = document.getElementById('telefone').value;
 
-    // Monta o objeto com os dados
     const dadosCliente = {
         nome: nome,
         email: email,
@@ -20,34 +19,61 @@ form.addEventListener('submit', async function(event) {
     };
 
     try {
-        // Envia os dados para a nossa API PHP usando o método POST
         const resposta = await fetch('http://localhost:8000/cadastrar.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Avisa a API que estamos enviando JSON
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dadosCliente) // Converte o objeto JavaScript em texto JSON
+            body: JSON.stringify(dadosCliente)
         });
 
-        // Aguarda a resposta da API e converte de volta para objeto
         const resultado = await resposta.json();
 
-        // Verifica o código de status HTTP retornado pelo PHP
         if (resposta.status === 201) {
-            // Sucesso
             divMensagem.style.color = 'green';
             divMensagem.textContent = resultado.mensagem;
             form.reset(); // Limpa os campos do formulário
+            carregarClientes(); // Atualiza a tabela com o novo cliente automaticamente
         } else {
-            // Erro vindo do servidor
             divMensagem.style.color = 'red';
             divMensagem.textContent = resultado.erro;
         }
-
     } catch (erro) {
-        // Erro de conexão (ex: servidor desligado)
         divMensagem.style.color = 'red';
         divMensagem.textContent = 'Erro ao conectar com o servidor.';
         console.error(erro);
     }
 });
+
+// Função para buscar e exibir os clientes na tabela
+async function carregarClientes() {
+    try {
+        // Faz uma requisição GET para a rota de listar
+        const resposta = await fetch('http://localhost:8000/listar.php');
+        const clientes = await resposta.json();
+
+        // Limpa a tabela antes de preencher novamente
+        corpoTabela.innerHTML = '';
+
+        // Percorre cada cliente retornado pelo PHP
+        clientes.forEach(cliente => {
+            const linha = document.createElement('tr');
+
+            linha.innerHTML = `
+                <td>${cliente.id}</td>
+                <td>${cliente.nome}</td>
+                <td>${cliente.email}</td>
+                <td style="text-align: center;">
+                    <button class="btn-editar">Editar</button>
+                    <button class="btn-excluir">Excluir</button>
+                </td>
+            `;
+            corpoTabela.appendChild(linha);
+        });
+    } catch (erro) {
+        console.error("Erro ao carregar clientes:", erro);
+    }
+}
+
+// Chama a função assim que o script carrega para mostrar a lista
+carregarClientes();

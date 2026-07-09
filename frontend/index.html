@@ -12,8 +12,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .container {
             background: white;
@@ -21,9 +23,9 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 400px; /* Garante que não fique largo demais em telas grandes */
+            max-width: 600px; /* Aumentei um pouco para a tabela caber melhor */
         }
-        h2 { text-align: center; color: #333; }
+        h2, h3 { text-align: center; color: #333; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; color: #666; }
         input {
@@ -31,7 +33,7 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box; /* Impede que o padding quebre a largura */
+            box-sizing: border-box;
         }
         button {
             width: 100%;
@@ -45,6 +47,23 @@
         }
         button:hover { background-color: #218838; }
         #mensagem { text-align: center; margin-top: 15px; font-weight: bold; }
+        
+        /* Estilos da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th { background-color: #f8f9fa; }
+        .btn-editar { background: #007bff; padding: 5px 10px; font-size: 12px; width: auto; margin-right: 5px; }
+        .btn-editar:hover { background: #0056b3; }
+        .btn-excluir { background: #dc3545; padding: 5px 10px; font-size: 12px; width: auto; }
+        .btn-excluir:hover { background: #a71d2a; }
     </style>
 </head>
 <body>
@@ -69,6 +88,22 @@
     </form>
 
     <div id="mensagem"></div>
+
+    <hr style="margin: 30px 0; border-top: 1px solid #eee;">
+    
+    <h3>Clientes Cadastrados</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th style="text-align: center;">Ações</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaClientes">
+            </tbody>
+    </table>
 </div>
 
 <script src="script.js"></script>
