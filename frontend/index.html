@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Clientes</title>
     <style>
-        /* Estilos básicos para deixar a tela responsiva e amigável */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -23,7 +22,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 600px; /* Aumentei um pouco para a tabela caber melhor */
+            max-width: 600px;
         }
         h2, h3 { text-align: center; color: #333; }
         .form-group { margin-bottom: 15px; }
@@ -35,7 +34,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-        button {
+        .btn-salvar {
             width: 100%;
             padding: 10px;
             background-color: #28a745;
@@ -44,34 +43,40 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            margin-bottom: 10px;
         }
-        button:hover { background-color: #218838; }
+        .btn-salvar:hover { background-color: #218838; }
+        .btn-cancelar {
+            width: 100%;
+            padding: 10px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: none; /* Escondido por padrão */
+        }
+        .btn-cancelar:hover { background-color: #5a6268; }
         #mensagem { text-align: center; margin-top: 15px; font-weight: bold; }
         
-        /* Estilos da Tabela */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background-color: #f8f9fa; }
-        .btn-editar { background: #007bff; padding: 5px 10px; font-size: 12px; width: auto; margin-right: 5px; }
+        .btn-editar { background: #007bff; color: white; padding: 5px 10px; font-size: 12px; border: none; border-radius: 3px; cursor: pointer; margin-right: 5px; }
         .btn-editar:hover { background: #0056b3; }
-        .btn-excluir { background: #dc3545; padding: 5px 10px; font-size: 12px; width: auto; }
+        .btn-excluir { background: #dc3545; color: white; padding: 5px 10px; font-size: 12px; border: none; border-radius: 3px; cursor: pointer; }
         .btn-excluir:hover { background: #a71d2a; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Novo Cliente</h2>
+    <h2 id="tituloFormulario">Novo Cliente</h2>
     
     <form id="formCadastro">
+        <input type="hidden" id="clienteId">
+
         <div class="form-group">
             <label for="nome">Nome *</label>
             <input type="text" id="nome" required>
@@ -84,7 +89,9 @@
             <label for="telefone">Telefone</label>
             <input type="text" id="telefone">
         </div>
-        <button type="submit">Cadastrar</button>
+        
+        <button type="submit" id="btnSalvar" class="btn-salvar">Cadastrar</button>
+        <button type="button" id="btnCancelar" class="btn-cancelar" onclick="cancelarEdicao()">Cancelar Edição</button>
     </form>
 
     <div id="mensagem"></div>
@@ -101,8 +108,7 @@
                 <th style="text-align: center;">Ações</th>
             </tr>
         </thead>
-        <tbody id="tabelaClientes">
-            </tbody>
+        <tbody id="tabelaClientes"></tbody>
     </table>
 </div>
 
