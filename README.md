@@ -63,9 +63,9 @@ A API REST foi desenvolvida para receber e retornar informações obrigatoriamen
 * **Exemplo de Requisição (JSON):**
   ```json
   {
-    "nome": "Erik Souza Lopes",
-    "email": "eriksouzalopes@gmail.com",
-    "telefone": "35999665841"
+    "nome": "Erik Souza",
+    "email": "erik@gmail.com",
+    "telefone": "35991234567"
   }
   ```
 
@@ -79,7 +79,7 @@ A API REST foi desenvolvida para receber e retornar informações obrigatoriamen
     "id": 1,
     "nome": "Erik Souza Lopes",
     "email": "erik.novo@gmail.com",
-    "telefone": "35000000000"
+    "telefone": "35997654321"
   }
   ```
 
